@@ -82,14 +82,15 @@ void printTowers(towers *t, int piecesQuant) {
   printf("\n");
 }
 
-void move(stack **src, stack **dest) {
-  push(dest, pop(src));
-}
-
 char getTowerName(stack *s, towers *t) {
   if (s == t->A) return 'A';
   if (s == t->B) return 'B';
   return 'C';
+}
+
+void move(towers *t, stack **src, stack **dest) {
+  printf("      MOVE %c, %c\n", getTowerName(*src, t), getTowerName(*dest, t));
+  push(dest, pop(src));
 }
 
 int counter = 0;
@@ -99,12 +100,12 @@ void recursiveHanoi(towers *t, int n, stack **src, stack **dest, stack **aux) {
   printf("    %d. %c, %c, %c\n", ++counter, getTowerName(*src, t), getTowerName(*dest, t), getTowerName(*aux, t));
 
   if (n == 1) {
-    move(src, dest);
+    move(t, src, dest);
     return;
   }
 
   recursiveHanoi(t, n - 1, src, aux, dest);
-  move(src, dest);
+  move(t, src, dest);
   recursiveHanoi(t, --n, aux, dest, src);
 }
 
